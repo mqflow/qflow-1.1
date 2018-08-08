@@ -177,7 +177,8 @@ endif
 # Spot check:  Did qrouter produce file ${rootname}_route.def?
 #---------------------------------------------------------------------
 
-if ( !( -f ${rootname}_route.def || ( -M ${rootname}_route.def \
+if ( !( -f ${rootname}_route.def || \
+		( -f ${rootname}_route.def && -M ${rootname}_route.def \
 		< -M ${rootname}.def ))) then
    echo "qrouter failure:  No file ${rootname}_route.def." |& tee -a ${synthlog}
    echo "Premature exit." |& tee -a ${synthlog}

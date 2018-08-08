@@ -167,7 +167,8 @@ endif
 # Spot check:  Did blif2cel produce file ${rootname}.cel?
 #---------------------------------------------------------------------
 
-if ( !( -f ${layoutdir}/${rootname}.cel || ( -M ${layoutdir}/${rootname}.cel \
+if ( !( -f ${layoutdir}/${rootname}.cel || \
+	( -f ${layoutdir}/${rootname}.cel && -M ${layoutdir}/${rootname}.cel \
 	< -M ${rootname}.blif ))) then
    echo "blif2cel failure:  No file ${rootname}.cel." |& tee -a ${synthlog}
    echo "blif2cel was called with arguments: ${synthdir}/${rootname}.blif "
@@ -268,7 +269,8 @@ endif
 # Spot check:  Did GrayWolf produce file ${rootname}.pin?
 #---------------------------------------------------------------------
 
-if ( !( -f ${rootname}.pin || ( -M ${rootname}.pin < -M ${rootname}.cel ))) then
+if ( !( -f ${rootname}.pin || \
+	( -f ${rootname}.pin && -M ${rootname}.pin < -M ${rootname}.cel ))) then
    echo "GrayWolf failure:  No file ${rootname}.pin." |& tee -a ${synthlog}
    echo "Premature exit." |& tee -a ${synthlog}
    echo "Synthesis flow stopped due to error condition." >> ${synthlog}
@@ -317,7 +319,8 @@ if ($makedef == 1) then
    # Spot check:  Did qrouter produce file ${rootname}.info?
    #---------------------------------------------------------------------
 
-   if ( !( -f ${rootname}.info || ( -M ${rootname}.info < -M ${rootname}.pin ))) then
+   if ( !( -f ${rootname}.info || \
+	( -f ${rootname}.info && -M ${rootname}.info < -M ${rootname}.pin ))) then
       echo "qrouter (-i) failure:  No file ${rootname}.info." |& tee -a ${synthlog}
       echo "Premature exit." |& tee -a ${synthlog}
       echo "Synthesis flow stopped due to error condition." >> ${synthlog}
@@ -371,7 +374,8 @@ if ($makedef == 1) then
    # Spot check:  Did place2def produce file ${rootname}.def?
    #---------------------------------------------------------------------
 
-   if ( !( -f ${rootname}.def || ( -M ${rootname}.def < -M ${rootname}.pin ))) then
+   if ( !( -f ${rootname}.def || \
+	( -f ${rootname}.def && -M ${rootname}.def < -M ${rootname}.pin ))) then
       echo "place2def failure:  No file ${rootname}.def." |& tee -a ${synthlog}
       echo "Premature exit." |& tee -a ${synthlog}
       echo "Synthesis flow stopped due to error condition." >> ${synthlog}
@@ -590,20 +594,20 @@ if ($makedef == 1) then
       # Spot check:  Did blif2Verilog or blif2BSpice exit with an error?
       #------------------------------------------------------------------
 
-      if ( !( -f ${rootname}.rtl.v || \
-		( -M ${rootname}.rtl.v < -M ${rootname}.blif ))) then
+      if ( !( -f ${rootname}.rtl.v || ( -f ${rootname}.rtl.v && \
+		-M ${rootname}.rtl.v < -M ${rootname}.blif ))) then
 	 echo "blif2Verilog failure:  No file ${rootname}.rtl.v created." \
 		|& tee -a ${synthlog}
       endif
 
-      if ( !( -f ${rootname}.rtlnopwr.v || \
-		( -M ${rootname}.rtlnopwr.v < -M ${rootname}.blif ))) then
+      if ( !( -f ${rootname}.rtlnopwr.v || ( -f ${rootname}.rtlnopwr.v && \
+		-M ${rootname}.rtlnopwr.v < -M ${rootname}.blif ))) then
 	 echo "blif2Verilog failure:  No file ${rootname}.rtlnopwr.v created." \
 		|& tee -a ${synthlog}
       endif
 
-      if ( !( -f ${rootname}.spc || \
-		( -M ${rootname}.spc < -M ${rootname}.blif ))) then
+      if ( !( -f ${rootname}.spc || ( -f ${rootname}.spc && \
+		-M ${rootname}.spc < -M ${rootname}.blif ))) then
 	 echo "blif2BSpice failure:  No file ${rootname}.spc created." \
 		|& tee -a ${synthlog}
       endif
